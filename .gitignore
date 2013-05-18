@@ -1,0 +1,11 @@
+*.data
+*.tmp
+*.swp
+*.tmp
+*.json
+*.swo
+*.db
+*.data
+*.bk
+*.out
+*.o
