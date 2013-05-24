@@ -5,25 +5,32 @@ import sys
 # Map function
 # mr - MapReduce object
 # data - json object formatted as a string
-def mapper(mr, data):
-    data = json.loads(dataline, encoding='latin-1')
+mr = MapReduce.MapReduce()
+def mapper(data):
 
-    # output (key, value) pair (only for mapper)
-    mr.emit_intermediate(key, value)
+    qid = data[1]
+    mr.emit_intermediate(qid, data)
+
 
 # Reduce function
 # mr - MapReduce object
 # key - key generated from map phse, associated to list_of_values
 # list_of_values - values generated from map phase, associated to key
-def reducer(mr, key, list_of_values):
+def reducer(qid, data):
 
     # output item (only for reducer)
-    mr.emit(item)
+    if len(data) >= 2:
+        for line in data:
+            if line[0] == "order":
+                order = line
+        for line in data:
+            if line[0] == "line_item":
+                mr.emit(order + line)
 
 def main():
     # Assumes first argument is a file of json objects formatted as strings, 
     #one per line.
-    MapReduce.execute(open(sys.argv[1]), mapper, reducer)
+    mr.execute(open(sys.argv[1]), mapper, reducer)
 
 if __name__ == '__main__':
     main()
